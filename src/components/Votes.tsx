@@ -1,8 +1,8 @@
-import React from 'react'
-import { Proposal, ProposalState } from '@thirdweb-dev/sdk'
-import { useContract, useContractRead } from '@thirdweb-dev/react'
-import { VoteCard } from './card/VoteCard'
-import { Box, Flex } from '@chakra-ui/react'
+import React from 'react';
+import { Proposal, ProposalState } from '@thirdweb-dev/sdk';
+import { useContract, useContractRead } from '@thirdweb-dev/react';
+import { Box, Flex } from '@chakra-ui/react';
+import { VoteCard } from './card/VoteCard';
 
 interface VotesProps {
   targetState: ProposalState; 
@@ -19,9 +19,13 @@ export function Votes({ targetState }: VotesProps) {
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        <Flex direction={['column', 'row']} flexWrap='wrap'>
+        <Flex direction='row' flexWrap='wrap' width='1500px'> {/* 全体の幅を一定に保つ */}
           {proposals?.map((proposal: Proposal, i: number) => (
-            <Box key={i} flex='1' minWidth='300px' marginRight='24px' marginBottom='24px'>
+            <Box
+              key={i}
+              width='300px' // 各カードの幅を一定に設定
+              margin='30px' // カードの間隔
+            >
               <VoteCard proposal={proposal} targetState={targetState} />
             </Box>
           ))}
