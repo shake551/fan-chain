@@ -1,6 +1,7 @@
 'use client'
 
 import { Votes } from '@/components/Votes'
+import { ProposeForm } from '@/components/form/ProposeForm'
 import { ThirdwebProvider, ConnectWallet, metamaskWallet } from '@thirdweb-dev/react'
 
 export default function App() {
@@ -11,6 +12,7 @@ export default function App() {
       supportedWallets={[metamaskWallet()]}
     >
       <ConnectWallet />
+      <ProposeForm />
       <Votes />
     </ThirdwebProvider>
   )
