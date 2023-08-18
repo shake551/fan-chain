@@ -6,7 +6,7 @@ import { VoteCard } from './card/VoteCard';
 import { ProposalStateName } from '@/utils/proposalState';
 
 interface VotesProps {
-  targetState: ProposalState; 
+  targetState: ProposalState
 }
 
 export function Votes({ targetState }: VotesProps) { 
