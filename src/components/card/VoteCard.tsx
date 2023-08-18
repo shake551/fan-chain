@@ -11,12 +11,13 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { useContract, useContractRead } from '@thirdweb-dev/react';
-import { Proposal } from '@thirdweb-dev/sdk';
+import { Proposal, ProposalState } from '@thirdweb-dev/sdk';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { VoteCardDetails } from './VoteCardDetails';
 
 interface Props {
   proposal: Proposal;
+  targetState: ProposalState; 
 }
 
 export function VoteCard({ proposal }: Props) {
