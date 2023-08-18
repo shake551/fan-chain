@@ -1,8 +1,17 @@
 import { ProposalStateName } from '@/utils/proposalState'
-import { Box, Card, CardBody, CardHeader, Heading, Stack, Text } from '@chakra-ui/react'
-import { useContract, useContractRead } from '@thirdweb-dev/react'
+import {
+  Box,
+  Card,
+  CardBody,
+  CardHeader,
+  Heading,
+  Stack,
+  Text,
+} from '@chakra-ui/react'
+import { useAddress, useContract, useContractRead, useContractWrite } from '@thirdweb-dev/react'
 import { Proposal, ProposalState } from '@thirdweb-dev/sdk'
 import { ethers } from 'ethers'
+import { VoteButton } from '../button/VoteButton'
 
 interface Props {
   proposal: Proposal
@@ -19,6 +28,37 @@ export function VoteCard({ proposal }: Props) {
     proposal.proposalId,
   ])
   const stateName = ProposalStateName(state)
+
+  const { mutateAsync: castVote, isLoading } = useContractWrite(contract, 'castVote')
+  const callFor = async (proposalId: string) => {
+    try {
+      const data = await castVote({ args: [proposalId, 1] })
+      console.info('contract call successs', data)
+    } catch (err) {
+      console.error('contract call failure', err)
+    }
+  }
+
+  const callAgainst = async (proposalId: string) => {
+    try {
+      const data = await castVote({ args: [proposalId, 0] })
+      console.info('contract call successs', data)
+    } catch (err) {
+      console.error('contract call failure', err)
+    }
+  }
+
+  const callAbstained = async (proposalId: string) => {
+    try {
+      const data = await castVote({ args: [proposalId, 2] })
+      console.info('contract call successs', data)
+    } catch (err) {
+      console.error('contract call failure', err)
+    }
+  }
+
+  const address = useAddress()
+  const { data: hasVoted } = useContractRead(contract, 'hasVoted', [proposal.proposalId, address])
 
   return (
     <Card backgroundColor='white' boxShadow='md' borderRadius='md' p={4} m={4}>
@@ -61,6 +101,28 @@ export function VoteCard({ proposal }: Props) {
               </Box>
             </>
           )}
+          {state == ProposalState.Active && !hasVoted ? (
+            <>
+              <VoteButton
+                label='For'
+                onClick={() => callFor(`${proposal.proposalId}`)}
+                color='green'
+              />
+              <VoteButton
+                label='Against'
+                onClick={() => callAgainst(`${proposal.proposalId}`)}
+                color='red'
+              />
+              <VoteButton
+                label='Abstain'
+                onClick={() => callAbstained(`${proposal.proposalId}`)}
+                color='gray'
+              />
+            </>
+          ) : (
+            <></>
+          )}
+          {hasVoted ? <Text>Voted</Text> : <></>}
         </Stack>
       </CardBody>
     </Card>
