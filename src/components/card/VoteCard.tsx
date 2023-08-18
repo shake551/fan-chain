@@ -9,9 +9,10 @@ import {
   StackDivider,
   Text,
 } from '@chakra-ui/react'
-import { useContract, useContractRead } from '@thirdweb-dev/react'
+import { useContract, useContractRead, useContractWrite } from '@thirdweb-dev/react'
 import { Proposal, ProposalState } from '@thirdweb-dev/sdk'
 import { ethers } from 'ethers'
+import { VoteButton } from '../button/VoteButton'
 
 interface Props {
   proposal: Proposal
@@ -29,6 +30,34 @@ export function VoteCard({ proposal }: Props) {
     proposal.proposalId,
   ])
   const stateName = ProposalStateName(state)
+
+  const { mutateAsync: castVote, isLoading } = useContractWrite(contract, 'castVote')
+  const callFor = async (proposalId: string) => {
+    try {
+      const data = await castVote({ args: [proposalId, 1] })
+      console.info('contract call successs', data)
+    } catch (err) {
+      console.error('contract call failure', err)
+    }
+  }
+
+  const callAgainst = async (proposalId: string) => {
+    try {
+      const data = await castVote({ args: [proposalId, 0] })
+      console.info('contract call successs', data)
+    } catch (err) {
+      console.error('contract call failure', err)
+    }
+  }
+
+  const callAbstained = async (proposalId: string) => {
+    try {
+      const data = await castVote({ args: [proposalId, 2] })
+      console.info('contract call successs', data)
+    } catch (err) {
+      console.error('contract call failure', err)
+    }
+  }
 
   return (
     <Card backgroundColor='grey' m={5}>
@@ -81,6 +110,27 @@ export function VoteCard({ proposal }: Props) {
                   {ethers.utils.formatUnits(`${Number(voteState[2])}`, 18)}
                 </Text>
               </Box>
+            </>
+          ) : (
+            <></>
+          )}
+          {state == ProposalState.Active ? (
+            <>
+              <VoteButton
+                label='For'
+                onClick={() => callFor(`${proposal.proposalId}`)}
+                color='green'
+              />
+              <VoteButton
+                label='Against'
+                onClick={() => callAgainst(`${proposal.proposalId}`)}
+                color='red'
+              />
+              <VoteButton
+                label='Abstain'
+                onClick={() => callAbstained(`${proposal.proposalId}`)}
+                color='gray'
+              />
             </>
           ) : (
             <></>
