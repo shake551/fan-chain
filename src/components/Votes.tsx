@@ -14,9 +14,9 @@ export function Votes() {
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        <Flex direction={['column', 'row']} flexWrap="wrap">
+        <Flex direction={['column', 'row']} flexWrap='wrap'>
           {proposals?.map((proposal: Proposal, i: number) => (
-            <Box key={i} flex="1" minWidth="300px" marginRight="24px" marginBottom="24px">
+            <Box key={i} flex='1' minWidth='300px' marginRight='24px' marginBottom='24px'>
               <VoteCard proposal={proposal} />
             </Box>
           ))}

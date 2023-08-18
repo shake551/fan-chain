@@ -1,32 +1,24 @@
-import { ProposalStateName } from '@/utils/proposalState';
-import {
-  Box,
-  Card,
-  CardBody,
-  CardHeader,
-  Heading,
-  Stack,
-  Text,
-} from '@chakra-ui/react';
-import { useContract, useContractRead } from '@thirdweb-dev/react';
-import { Proposal, ProposalState } from '@thirdweb-dev/sdk';
-import { ethers } from 'ethers';
+import { ProposalStateName } from '@/utils/proposalState'
+import { Box, Card, CardBody, CardHeader, Heading, Stack, Text } from '@chakra-ui/react'
+import { useContract, useContractRead } from '@thirdweb-dev/react'
+import { Proposal, ProposalState } from '@thirdweb-dev/sdk'
+import { ethers } from 'ethers'
 
 interface Props {
-  proposal: Proposal;
+  proposal: Proposal
 }
 
 export function VoteCard({ proposal }: Props) {
-  const { contract } = useContract(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS);
+  const { contract } = useContract(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS)
   const { data: voteState, isLoading: voteStateLoading } = useContractRead(
     contract,
     'proposalVotes',
-    [proposal.proposalId]
-  );
+    [proposal.proposalId],
+  )
   const { data: state, isLoading: stateLoading } = useContractRead(contract, 'state', [
-    proposal.proposalId
-  ]);
-  const stateName = ProposalStateName(state);
+    proposal.proposalId,
+  ])
+  const stateName = ProposalStateName(state)
 
   return (
     <Card backgroundColor='white' boxShadow='md' borderRadius='md' p={4} m={4}>
@@ -57,26 +49,20 @@ export function VoteCard({ proposal }: Props) {
             <>
               <Box>
                 <Text fontWeight='bold'>For:</Text>
-                <Text fontSize='sm'>
-                  {ethers.utils.formatUnits(`${Number(voteState[1])}`, 18)}
-                </Text>
+                <Text fontSize='sm'>{ethers.utils.formatUnits(`${Number(voteState[1])}`, 18)}</Text>
               </Box>
               <Box>
                 <Text fontWeight='bold'>Against:</Text>
-                <Text fontSize='sm'>
-                  {ethers.utils.formatUnits(`${Number(voteState[0])}`, 18)}
-                </Text>
+                <Text fontSize='sm'>{ethers.utils.formatUnits(`${Number(voteState[0])}`, 18)}</Text>
               </Box>
               <Box>
                 <Text fontWeight='bold'>Abstain:</Text>
-                <Text fontSize='sm'>
-                  {ethers.utils.formatUnits(`${Number(voteState[2])}`, 18)}
-                </Text>
+                <Text fontSize='sm'>{ethers.utils.formatUnits(`${Number(voteState[2])}`, 18)}</Text>
               </Box>
             </>
           )}
         </Stack>
       </CardBody>
     </Card>
-  );
+  )
 }
