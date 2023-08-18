@@ -7,7 +7,7 @@ export default function App() {
   return (
     <ThirdwebProvider
       activeChain='mumbai'
-      clientId='ff9630612d3e1f52ee79a7cd92bd656e'
+      clientId={process.env.NEXT_PUBLIC_CLIENT_ID}
       supportedWallets={[metamaskWallet()]}
     >
       <ConnectWallet />
