@@ -9,7 +9,7 @@ import {
   StackDivider,
   Text,
 } from '@chakra-ui/react'
-import { useContract, useContractRead, useContractWrite } from '@thirdweb-dev/react'
+import { useAddress, useContract, useContractRead, useContractWrite } from '@thirdweb-dev/react'
 import { Proposal, ProposalState } from '@thirdweb-dev/sdk'
 import { ethers } from 'ethers'
 import { VoteButton } from '../button/VoteButton'
@@ -19,7 +19,6 @@ interface Props {
 }
 
 export function VoteCard({ proposal }: Props) {
-  console.log(proposal.proposalId)
   const { contract } = useContract(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS)
   const { data: voteState, isLoading: voteStateLoading } = useContractRead(
     contract,
@@ -58,6 +57,9 @@ export function VoteCard({ proposal }: Props) {
       console.error('contract call failure', err)
     }
   }
+
+  const address = useAddress()
+  const { data: hasVoted } = useContractRead(contract, 'hasVoted', [proposal.proposalId, address])
 
   return (
     <Card backgroundColor='grey' m={5}>
@@ -114,7 +116,7 @@ export function VoteCard({ proposal }: Props) {
           ) : (
             <></>
           )}
-          {state == ProposalState.Active ? (
+          {state == ProposalState.Active && !hasVoted ? (
             <>
               <VoteButton
                 label='For'
@@ -135,6 +137,7 @@ export function VoteCard({ proposal }: Props) {
           ) : (
             <></>
           )}
+          {hasVoted ? <Text>Voted</Text> : <></>}
         </Stack>
       </CardBody>
     </Card>
