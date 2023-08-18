@@ -7,7 +7,7 @@ import { ThirdwebProvider, ConnectWallet, metamaskWallet, ProposalState } from '
 export default function App() {
   return (
     <ThirdwebProvider
-      activeChain='mumbai'
+      activeChain='aster'
       clientId={process.env.NEXT_PUBLIC_CLIENT_ID}
       supportedWallets={[metamaskWallet()]}
     >
