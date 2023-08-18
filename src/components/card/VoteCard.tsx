@@ -6,12 +6,9 @@ import {
   CardHeader,
   Heading,
   Stack,
-  StackDivider,
   Text,
 } from '@chakra-ui/react'
 import { useAddress, useContract, useContractRead, useContractWrite } from '@thirdweb-dev/react'
-import { Box, Card, CardBody, CardHeader, Heading, Stack, Text } from '@chakra-ui/react'
-import { useContract, useContractRead } from '@thirdweb-dev/react'
 import { Proposal, ProposalState } from '@thirdweb-dev/sdk'
 import { ethers } from 'ethers'
 import { VoteButton } from '../button/VoteButton'

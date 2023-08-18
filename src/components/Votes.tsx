@@ -1,8 +1,7 @@
 import React from 'react'
 import { Proposal, useContract, useContractRead } from '@thirdweb-dev/react'
 import { VoteCard } from './card/VoteCard'
-import { Flex, Wrap } from '@chakra-ui/react'
-import { Flex, Box } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 
 export function Votes() {
   const { contract } = useContract(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS)
@@ -15,14 +14,6 @@ export function Votes() {
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        <Flex>
-          <Wrap>
-            {proposals?.map((proposal: Proposal, i: number) => (
-              <div key={i}>
-                <VoteCard proposal={proposal} />
-              </div>
-            ))}
-          </Wrap>
         <Flex direction={['column', 'row']} flexWrap='wrap'>
           {proposals?.map((proposal: Proposal, i: number) => (
             <Box key={i} flex='1' minWidth='300px' marginRight='24px' marginBottom='24px'>
@@ -31,6 +22,6 @@ export function Votes() {
           ))}
         </Flex>
       )}
-    </div>
+      </div>
   )
 }
