@@ -9,7 +9,7 @@ export const ProposeForm: React.FC = () => {
     setTitle(event.target.value)
   }
 
-  const { contract } = useContract('0x0115C23E415103CD7Ba9957e3e78EdeEB77D7cef')
+  const { contract } = useContract(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS)
   const address = useAddress()
   const { mutateAsync: propose, isLoading } = useContractWrite(contract, 'propose')
 
