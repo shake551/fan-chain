@@ -5,10 +5,11 @@ import { VoteCard } from './card/VoteCard'
 import { Box, Flex } from '@chakra-ui/react'
 
 interface VotesProps {
-  targetState: ProposalState; 
+  targetState: ProposalState
 }
 
-export function Votes({ targetState }: VotesProps) { // VotesPropsを指定
+export function Votes({ targetState }: VotesProps) {
+  // VotesPropsを指定
   const { contract } = useContract(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS)
 
   const { data: proposals, isLoading } = useContractRead(contract, 'getAllProposals')

@@ -1,17 +1,11 @@
-import React from 'react';
-import {
-  Box,
-  Heading,
-  IconButton,
-  Stack,
-  Text,
-} from '@chakra-ui/react';
-import { Proposal } from '@thirdweb-dev/sdk';
-import { CloseIcon } from '@chakra-ui/icons';
+import React from 'react'
+import { Box, Heading, IconButton, Stack, Text } from '@chakra-ui/react'
+import { Proposal } from '@thirdweb-dev/sdk'
+import { CloseIcon } from '@chakra-ui/icons'
 
 interface Props {
-  proposal: Proposal;
-  onClose: () => void;
+  proposal: Proposal
+  onClose: () => void
 }
 
 export function VoteCardDetails({ proposal, onClose }: Props) {
@@ -54,5 +48,5 @@ export function VoteCardDetails({ proposal, onClose }: Props) {
         </Box>
       </Stack>
     </Box>
-  );
+  )
 }
