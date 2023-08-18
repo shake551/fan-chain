@@ -2,7 +2,7 @@
 
 import { Votes } from '@/components/Votes'
 import { ProposeForm } from '@/components/form/ProposeForm'
-import { ThirdwebProvider, ConnectWallet, metamaskWallet } from '@thirdweb-dev/react'
+import { ThirdwebProvider, ConnectWallet, metamaskWallet, ProposalState } from '@thirdweb-dev/react'
 
 export default function App() {
   return (
@@ -13,7 +13,14 @@ export default function App() {
     >
       <ConnectWallet />
       <ProposeForm />
-      <Votes />
+      <Votes targetState={ProposalState.Active} />
+      <Votes targetState={ProposalState.Succeeded} />
+      <Votes targetState={ProposalState.Executed} />
+      <Votes targetState={ProposalState.Expired} />
+      <Votes targetState={ProposalState.Defeated} />
+      <Votes targetState={ProposalState.Pending} />
+      <Votes targetState={ProposalState.Queued} />
+      <Votes targetState={ProposalState.Canceled} />
     </ThirdwebProvider>
   )
 }

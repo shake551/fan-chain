@@ -15,21 +15,23 @@ import { VoteButton } from '../button/VoteButton'
 
 interface Props {
   proposal: Proposal
+  targetState: ProposalState
 }
 
-export function VoteCard({ proposal }: Props) {
+export function VoteCard({ proposal, targetState }: Props) {
   const { contract } = useContract(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS)
-  const { data: voteState, isLoading: voteStateLoading } = useContractRead(
+  const { data: voteState } = useContractRead(
     contract,
     'proposalVotes',
     [proposal.proposalId],
   )
-  const { data: state, isLoading: stateLoading } = useContractRead(contract, 'state', [
+  const { data: state } = useContractRead(contract, 'state', [
     proposal.proposalId,
   ])
+
   const stateName = ProposalStateName(state)
 
-  const { mutateAsync: castVote, isLoading } = useContractWrite(contract, 'castVote')
+  const { mutateAsync: castVote } = useContractWrite(contract, 'castVote')
   const callFor = async (proposalId: string) => {
     try {
       const data = await castVote({ args: [proposalId, 1] })
@@ -59,6 +61,10 @@ export function VoteCard({ proposal }: Props) {
 
   const address = useAddress()
   const { data: hasVoted } = useContractRead(contract, 'hasVoted', [proposal.proposalId, address])
+
+  if (state != targetState) {
+  return
+  }
 
   return (
     <Card backgroundColor='white' boxShadow='md' borderRadius='md' p={4} m={4}>
