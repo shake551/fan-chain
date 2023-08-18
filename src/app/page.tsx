@@ -3,11 +3,12 @@
 import { Votes } from '@/components/Votes'
 import { ProposeForm } from '@/components/form/ProposeForm'
 import { ThirdwebProvider, ConnectWallet, metamaskWallet, ProposalState } from '@thirdweb-dev/react'
+import {Astar} from '@thirdweb-dev/chains'
 
 export default function App() {
   return (
     <ThirdwebProvider
-      activeChain='aster'
+      activeChain={Astar}
       clientId={process.env.NEXT_PUBLIC_CLIENT_ID}
       supportedWallets={[metamaskWallet()]}
     >
