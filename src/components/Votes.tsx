@@ -1,9 +1,14 @@
 import React from 'react'
-import { Proposal, ProposalState, useContract, useContractRead } from '@thirdweb-dev/react'
+import { Proposal, ProposalState } from '@thirdweb-dev/sdk' // 必要なSDKのインポートを追加
+import { useContract, useContractRead } from '@thirdweb-dev/react'
 import { VoteCard } from './card/VoteCard'
 import { Box, Flex } from '@chakra-ui/react'
 
-export function Votes({targetState}: {targetState: ProposalState}) {
+interface VotesProps {
+  targetState: ProposalState; 
+}
+
+export function Votes({ targetState }: VotesProps) { // VotesPropsを指定
   const { contract } = useContract(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS)
 
   const { data: proposals, isLoading } = useContractRead(contract, 'getAllProposals')
@@ -22,6 +27,6 @@ export function Votes({targetState}: {targetState: ProposalState}) {
           ))}
         </Flex>
       )}
-      </div>
+    </div>
   )
 }
